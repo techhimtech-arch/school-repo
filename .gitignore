@@ -1,1 +1,2 @@
-.vercel
+# Vercel configuration directories (at any depth)
+**/.vercel
