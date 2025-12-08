@@ -32,21 +32,23 @@ app.get("/", (req, res) => {
 });
 
 // API Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/attendance", attendanceRoutes);
-app.use("/api/homework", homeworkRoutes);
-app.use("/api/materials", materialsRoutes);
-app.use("/api/tests", testsRoutes);
-app.use("/api/marks", marksRoutes);
-app.use("/api/behaviour", behaviourRoutes);
-app.use("/api/topics", topicsRoutes);
-app.use("/api/announcements", announcementsRoutes);
-app.use("/api/leaves", leavesRoutes);
-app.use("/api/fees", feesRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/class-teacher", classTeacherRoutes);
-app.use("/api/subject-teacher", subjectTeacherRoutes);
-app.use("/api/parent", parentRoutes);
+// Note: In Vercel, /api prefix is handled by routing, so routes are defined without it
+// For local development, the proxy will handle the /api prefix
+app.use("/auth", authRoutes);
+app.use("/attendance", attendanceRoutes);
+app.use("/homework", homeworkRoutes);
+app.use("/materials", materialsRoutes);
+app.use("/tests", testsRoutes);
+app.use("/marks", marksRoutes);
+app.use("/behaviour", behaviourRoutes);
+app.use("/topics", topicsRoutes);
+app.use("/announcements", announcementsRoutes);
+app.use("/leaves", leavesRoutes);
+app.use("/fees", feesRoutes);
+app.use("/admin", adminRoutes);
+app.use("/class-teacher", classTeacherRoutes);
+app.use("/subject-teacher", subjectTeacherRoutes);
+app.use("/parent", parentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

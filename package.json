@@ -1,0 +1,15 @@
+{
+  "name": "school-management-fullstack",
+  "version": "1.0.0",
+  "description": "Full-stack School Management System",
+  "scripts": {
+    "install:all": "cd school-backend && npm install && cd ../progress-key-app-main && npm install",
+    "build:frontend": "cd progress-key-app-main && npm install && npm run build",
+    "dev:backend": "cd school-backend && npm run dev",
+    "dev:frontend": "cd progress-key-app-main && npm run dev"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
+

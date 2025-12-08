@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { adminAPI, announcementsAPI } from "@/lib/api";
 import { toast } from "sonner";
 import {
   Users,
@@ -42,20 +42,21 @@ const AdminDashboard = () => {
   const loadStats = async () => {
     try {
       const [studentsRes, teachersRes, classesRes, announcementsRes] = await Promise.all([
-        supabase.from("students").select("id", { count: "exact" }),
-        supabase.from("teachers").select("id", { count: "exact" }),
-        supabase.from("classes").select("id", { count: "exact" }),
-        supabase.from("announcements").select("id", { count: "exact" }),
+        adminAPI.getStudents().catch(() => ({ data: [], count: 0 })),
+        adminAPI.getTeachers().catch(() => ({ data: [], count: 0 })),
+        adminAPI.getClasses().catch(() => ({ data: [], count: 0 })),
+        announcementsAPI.getAnnouncements().catch(() => ({ data: [], count: 0 })),
       ]);
 
       setStats({
-        totalStudents: studentsRes.count || 0,
-        totalTeachers: teachersRes.count || 0,
-        totalClasses: classesRes.count || 0,
-        announcements: announcementsRes.count || 0,
+        totalStudents: Array.isArray(studentsRes) ? studentsRes.length : (studentsRes as any).count || 0,
+        totalTeachers: Array.isArray(teachersRes) ? teachersRes.length : (teachersRes as any).count || 0,
+        totalClasses: Array.isArray(classesRes) ? classesRes.length : (classesRes as any).count || 0,
+        announcements: Array.isArray(announcementsRes) ? announcementsRes.length : (announcementsRes as any).count || 0,
       });
     } catch (error) {
       console.error("Error loading stats:", error);
+      toast.error("Failed to load statistics");
     }
   };
 

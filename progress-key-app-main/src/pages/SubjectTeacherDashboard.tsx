@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { subjectTeacherAPI, homeworkAPI, materialsAPI } from "@/lib/api";
 import { toast } from "sonner";
 import {
   BookOpen,
@@ -41,42 +41,32 @@ const SubjectTeacherDashboard = () => {
 
   const loadStats = async (userId: string) => {
     try {
-      // Get teacher info
-      const { data: teacherData } = await supabase
-        .from("teachers")
-        .select("id")
-        .eq("user_id", userId)
-        .single();
+      // Get assigned subjects
+      const subjects = await subjectTeacherAPI.getAssignedSubjects().catch(() => []);
 
-      if (!teacherData) return;
+      // Get homework count
+      const homeworkData = await homeworkAPI.getHomework().catch(() => []);
+      const totalHomework = Array.isArray(homeworkData) ? homeworkData.length : 0;
 
-      const [homeworkRes, materialsRes, testsRes, behaviorRes] = await Promise.all([
-        supabase
-          .from("homework")
-          .select("id", { count: "exact" })
-          .eq("teacher_id", teacherData.id),
-        supabase
-          .from("materials")
-          .select("id", { count: "exact" })
-          .eq("teacher_id", teacherData.id),
-        supabase
-          .from("tests")
-          .select("id", { count: "exact" })
-          .eq("teacher_id", teacherData.id),
-        supabase
-          .from("behavior")
-          .select("id", { count: "exact" })
-          .eq("teacher_id", teacherData.id),
-      ]);
+      // Get materials count
+      const materialsData = await materialsAPI.getMaterials().catch(() => []);
+      const totalMaterials = Array.isArray(materialsData) ? materialsData.length : 0;
+
+      // Get tests count (using marks as proxy)
+      const totalTests = 0; // Update when tests API is available
+
+      // Get behavior notes count
+      const behaviorNotes = 0; // Update when behavior API is available
 
       setStats({
-        totalHomework: homeworkRes.count || 0,
-        totalMaterials: materialsRes.count || 0,
-        totalTests: testsRes.count || 0,
-        behaviorNotes: behaviorRes.count || 0,
+        totalHomework,
+        totalMaterials,
+        totalTests,
+        behaviorNotes,
       });
     } catch (error) {
       console.error("Error loading stats:", error);
+      toast.error("Failed to load statistics");
     }
   };
 

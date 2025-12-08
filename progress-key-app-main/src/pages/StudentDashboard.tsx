@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
+import { parentAPI, announcementsAPI } from "@/lib/api";
 import { toast } from "sonner";
 import {
   CheckCircle,
@@ -43,70 +43,46 @@ const StudentDashboard = () => {
 
   const loadDashboard = async (userId: string) => {
     try {
-      // Get student info
-      const { data: studentData } = await supabase
-        .from("students")
-        .select("id, class_id, section_id")
-        .eq("user_id", userId)
-        .single();
+      // Get student profile
+      const profile = await parentAPI.getStudentProfile().catch(() => null);
+      
+      if (!profile) return;
 
-      if (!studentData) return;
-
-      // Calculate attendance rate
-      const { count: totalDays } = await supabase
-        .from("attendance")
-        .select("id", { count: "exact" })
-        .eq("student_id", studentData.id);
-
-      const { count: presentDays } = await supabase
-        .from("attendance")
-        .select("id", { count: "exact" })
-        .eq("student_id", studentData.id)
-        .eq("is_present", true);
-
-      const attendanceRate =
-        totalDays && totalDays > 0 ? Math.round((presentDays! / totalDays) * 100) : 0;
+      // Get attendance data
+      const attendanceData = await parentAPI.getStudentAttendance().catch(() => []);
+      const totalDays = Array.isArray(attendanceData) ? attendanceData.length : 0;
+      const presentDays = Array.isArray(attendanceData) 
+        ? attendanceData.filter((a: any) => a.is_present).length 
+        : 0;
+      const attendanceRate = totalDays > 0 ? Math.round((presentDays / totalDays) * 100) : 0;
 
       // Get homework count
-      const { count: homeworkCount } = await supabase
-        .from("homework")
-        .select("id", { count: "exact" })
-        .eq("class_id", studentData.class_id)
-        .eq("section_id", studentData.section_id);
+      const homeworkData = await parentAPI.getStudentHomework().catch(() => []);
+      const homeworkCount = Array.isArray(homeworkData) ? homeworkData.length : 0;
 
-      // Get materials count
-      const { count: materialsCount } = await supabase
-        .from("materials")
-        .select("id", { count: "exact" })
-        .eq("class_id", studentData.class_id)
-        .eq("section_id", studentData.section_id);
+      // Get materials count (using a placeholder - adjust based on your API)
+      const materialsCount = 0; // Update when materials API is available for students
 
-      // Get tests count
-      const { count: testsCount } = await supabase
-        .from("tests")
-        .select("id", { count: "exact" })
-        .eq("class_id", studentData.class_id)
-        .eq("section_id", studentData.section_id);
+      // Get tests/marks count
+      const marksData = await parentAPI.getStudentMarks().catch(() => []);
+      const testsCount = Array.isArray(marksData) ? marksData.length : 0;
 
       // Get announcements
-      const { data: announcementsData } = await supabase
-        .from("announcements")
-        .select("*")
-        .or(
-          `is_school_wide.eq.true,and(target_class_id.eq.${studentData.class_id},target_section_id.eq.${studentData.section_id})`
-        )
-        .order("created_at", { ascending: false })
-        .limit(3);
+      const announcementsData = await announcementsAPI.getAnnouncements().catch(() => []);
+      const recentAnnouncements = Array.isArray(announcementsData) 
+        ? announcementsData.slice(0, 3) 
+        : [];
 
       setStats({
         attendanceRate,
-        homeworkCount: homeworkCount || 0,
-        materialsCount: materialsCount || 0,
-        testsCount: testsCount || 0,
+        homeworkCount,
+        materialsCount,
+        testsCount,
       });
-      setAnnouncements(announcementsData || []);
+      setAnnouncements(recentAnnouncements);
     } catch (error) {
       console.error("Error loading dashboard:", error);
+      toast.error("Failed to load dashboard data");
     }
   };
 
