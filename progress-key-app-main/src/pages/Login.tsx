@@ -26,6 +26,7 @@ const Login = () => {
         email,
         role: response.role,
         token: response.token,
+        full_name: response.full_name || email,
       };
       sessionStorage.setItem("user", JSON.stringify(userData));
 
