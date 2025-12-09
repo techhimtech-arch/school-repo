@@ -4,6 +4,20 @@
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Users table (for authentication and user management)
+CREATE TABLE IF NOT EXISTS users (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL CHECK (role IN ('SUPER_ADMIN', 'CLASS_TEACHER', 'SUBJECT_TEACHER', 'STUDENT_PARENT')),
+    name VARCHAR(255),
+    phone VARCHAR(20),
+    is_active BOOLEAN DEFAULT true,
+    last_login TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Classes table
 CREATE TABLE IF NOT EXISTS classes (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -225,4 +239,6 @@ CREATE INDEX IF NOT EXISTS idx_fees_student ON fees(student_id);
 CREATE INDEX IF NOT EXISTS idx_leave_requests_student ON leave_requests(student_id);
 CREATE INDEX IF NOT EXISTS idx_teachers_email ON teachers(email);
 CREATE INDEX IF NOT EXISTS idx_teacher_mapping_teacher ON teacher_subject_mapping(teacher_id);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 

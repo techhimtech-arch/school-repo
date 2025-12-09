@@ -19,6 +19,7 @@ import Materials from "./pages/admin/Materials";
 import Homework from "./pages/admin/Homework";
 import Announcements from "./pages/admin/Announcements";
 import Fees from "./pages/admin/Fees";
+import Users from "./pages/admin/Users";
 import ClassTeacherLayout from "./components/ClassTeacherLayout";
 import ClassTeacherDashboard from "./pages/class-teacher/Dashboard";
 import StudentList from "./pages/class-teacher/StudentList";
@@ -60,6 +61,7 @@ const App = () => (
             <Route path="homework" element={<Homework />} />
             <Route path="announcements" element={<Announcements />} />
             <Route path="fees" element={<Fees />} />
+            <Route path="users" element={<Users />} />
           </Route>
 
           {/* Class Teacher Routes with Layout */}

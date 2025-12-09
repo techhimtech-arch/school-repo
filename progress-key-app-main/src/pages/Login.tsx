@@ -23,17 +23,18 @@ const Login = () => {
       
       // Store user data in session storage for role-based routing
       const userData = {
-        email,
-        role: response.role,
+        email: response.user.email,
+        role: response.user.role,
         token: response.token,
-        full_name: response.full_name || email,
+        full_name: response.user.name || response.user.email,
+        id: response.user.id
       };
       sessionStorage.setItem("user", JSON.stringify(userData));
 
       toast.success("Login successful!");
 
       // Route based on role
-      switch (response.role) {
+      switch (response.user.role) {
         case "SUPER_ADMIN":
           navigate("/admin");
           break;
@@ -102,12 +103,10 @@ const Login = () => {
           </form>
 
           <div className="mt-8 p-4 bg-muted rounded-lg space-y-2 text-sm">
-            <p className="font-semibold text-foreground">Demo Credentials:</p>
+            <p className="font-semibold text-foreground">Database Login:</p>
             <div className="space-y-1 text-muted-foreground">
-              <p>🔹 Super Admin: superadmin@gmail.com / abc123</p>
-              <p>🔹 Class Teacher: classteacher@gmail.com / abc123</p>
-              <p>🔹 Subject Teacher: subjectteacher@gmail.com / abc123</p>
-              <p>🔹 Parent/Student: parentchild@gmail.com / abc123</p>
+              <p>🔹 Admin: admin@school.com / admin123</p>
+              <p className="text-xs mt-2 opacity-70">All users are now stored in the database</p>
             </div>
           </div>
         </CardContent>

@@ -1,26 +1,7 @@
-// Hardcoded users for authentication
-const users = [
-  {
-    email: 'superadmin@gmail.com',
-    password: 'abc123',
-    role: 'SUPER_ADMIN'
-  },
-  {
-    email: 'classteacher@gmail.com',
-    password: 'abc123',
-    role: 'CLASS_TEACHER'
-  },
-  {
-    email: 'subjectteacher@gmail.com',
-    password: 'abc123',
-    role: 'SUBJECT_TEACHER'
-  },
-  {
-    email: 'parentchild@gmail.com',
-    password: 'abc123',
-    role: 'STUDENT_PARENT'
-  }
-];
+// Hardcoded users - DEPRECATED
+// All users should now be in the database
+// This is kept empty for backward compatibility
+const users = [];
 
 module.exports = users;
 

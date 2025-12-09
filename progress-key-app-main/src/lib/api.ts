@@ -1,6 +1,24 @@
 // API service layer for backend communication
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
+// Support both VITE_BACKEND_URL and VITE_API_URL for flexibility
+// Production: Use VITE_BACKEND_URL (e.g., https://schoolmanage-taupe.vercel.app)
+// Development: Use proxy (/api) which redirects to localhost:3000
+const getApiBaseUrl = () => {
+  // If VITE_BACKEND_URL is set, use it (production)
+  if (import.meta.env.VITE_BACKEND_URL) {
+    const url = import.meta.env.VITE_BACKEND_URL.trim();
+    // Remove trailing slash if present
+    return url.endsWith('/') ? url.slice(0, -1) : url;
+  }
+  // If VITE_API_URL is set, use it
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  // Development: Use proxy (vite.config.ts will handle it)
+  return '/api';
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 // Helper function to get auth token
 const getAuthToken = (): string | null => {
@@ -232,4 +250,5 @@ export const parentAPI = {
     return apiRequest(`/parent/homework${queryString}`);
   },
 };
+
 
