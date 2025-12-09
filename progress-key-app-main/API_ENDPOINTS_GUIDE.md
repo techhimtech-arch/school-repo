@@ -4,16 +4,16 @@
 
 ### 🚀 Production (Vercel Deployed)
 
-**Backend URL:** `https://schoolmanage-taupe.vercel.app`
+**Backend URL:** `https://techhimtech-arch-school-repo-p6nx.vercel.app`
 
 **Login Endpoint:**
 ```
-POST https://schoolmanage-taupe.vercel.app/api/auth/login
+POST https://techhimtech-arch-school-repo-p6nx.vercel.app/api/auth/login
 ```
 
 **Full URL Example:**
 ```bash
-curl -X POST https://schoolmanage-taupe.vercel.app/api/auth/login \
+curl -X POST https://techhimtech-arch-school-repo-p6nx.vercel.app/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"superadmin@gmail.com","password":"abc123"}'
 ```
@@ -42,7 +42,7 @@ Create `.env` file in `progress-key-app-main/` folder:
 
 #### For Production:
 ```env
-VITE_BACKEND_URL=https://schoolmanage-taupe.vercel.app
+VITE_BACKEND_URL=https://techhimtech-arch-school-repo-p6nx.vercel.app
 ```
 
 #### For Development:
@@ -55,7 +55,7 @@ VITE_BACKEND_URL=https://schoolmanage-taupe.vercel.app
 
 1. **Production Mode:**
    - Frontend reads `VITE_BACKEND_URL`
-   - Makes direct API calls to: `https://schoolmanage-taupe.vercel.app/api/auth/login`
+   - Makes direct API calls to: `https://techhimtech-arch-school-repo-p6nx.vercel.app/api/auth/login`
 
 2. **Development Mode:**
    - If `VITE_BACKEND_URL` is not set, uses proxy
@@ -67,8 +67,8 @@ VITE_BACKEND_URL=https://schoolmanage-taupe.vercel.app
 ### Base URLs
 
 **Production:**
-- Base: `https://schoolmanage-taupe.vercel.app`
-- API: `https://schoolmanage-taupe.vercel.app/api`
+- Base: `https://techhimtech-arch-school-repo-p6nx.vercel.app`
+- API: `https://techhimtech-arch-school-repo-p6nx.vercel.app/api`
 
 **Development:**
 - Base: `http://localhost:3000`
@@ -162,12 +162,12 @@ GET  /api/parent/fees
 
 ```bash
 # Using curl
-curl -X POST https://schoolmanage-taupe.vercel.app/api/auth/login \
+curl -X POST https://techhimtech-arch-school-repo-p6nx.vercel.app/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{"email":"superadmin@gmail.com","password":"abc123"}'
 
 # Using JavaScript
-fetch('https://schoolmanage-taupe.vercel.app/api/auth/login', {
+fetch('https://techhimtech-arch-school-repo-p6nx.vercel.app/api/auth/login', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
@@ -226,7 +226,7 @@ npm run dev
 ### 3. Production Deployment
 
 **Backend (Vercel):**
-- Already deployed at: `https://schoolmanage-taupe.vercel.app`
+- Already deployed at: `https://techhimtech-arch-school-repo-p6nx.vercel.app`
 - Set environment variables in Vercel dashboard:
   - `DATABASE_URL`
   - `JWT_SECRET`
@@ -234,7 +234,7 @@ npm run dev
 
 **Frontend:**
 - Set environment variable:
-  - `VITE_BACKEND_URL=https://schoolmanage-taupe.vercel.app`
+  - `VITE_BACKEND_URL=https://techhimtech-arch-school-repo-p6nx.vercel.app`
 - Deploy to Vercel/Netlify/etc.
 
 ## Troubleshooting
@@ -262,6 +262,6 @@ npm run dev
 
 | Environment | Backend URL | Login Endpoint |
 |------------|-------------|----------------|
-| **Production** | `https://schoolmanage-taupe.vercel.app` | `https://schoolmanage-taupe.vercel.app/api/auth/login` |
+| **Production** | `https://techhimtech-arch-school-repo-p6nx.vercel.app` | `https://techhimtech-arch-school-repo-p6nx.vercel.app/api/auth/login` |
 | **Development** | `http://localhost:3000` | `http://localhost:3000/api/auth/login` or `/api/auth/login` (via proxy) |
 

@@ -1,7 +1,7 @@
 // API service layer for backend communication
 
 // Support both VITE_BACKEND_URL and VITE_API_URL for flexibility
-// Production: Use VITE_BACKEND_URL (e.g., https://schoolmanage-taupe.vercel.app)
+// Production: Use VITE_BACKEND_URL (e.g., https://techhimtech-arch-school-repo-p6nx.vercel.app)
 // Development: Use proxy (/api) which redirects to localhost:3000
 const getApiBaseUrl = () => {
   // If VITE_BACKEND_URL is set, use it (production)
